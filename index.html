@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html ng-app="demo">
+<head>
+	<meta charset="utf-8">
+	<title>Angular.js TimezoneJS demo</title>
+	<script type="text/javascript" src="js/bower_components/angular/angular.js"></script>
+	<script type="text/javascript" src="js/bower_components/jquery/jquery.js"></script>
+	<script type="text/javascript" src="js/bower_components/timezone-js/src/date.js"></script>
+	<script type="text/javascript" src="js/timezone.js"></script>
+	<script type="text/javascript" src="js/demo.js"></script>
+</head>
+<body>
+	<h1>Angular.js TimezoneJS demo</h1>
+
+	<p>Hey folks! Today is <span>{{ today | tzDate:timezone | date:"yyyy-MM-dd" }}</span></p>
+</body>
+</html>
