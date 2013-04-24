@@ -1,7 +1,7 @@
-# TimezoneJS for AngularJS
+# TimezoneJS for AngularJS [![Build Status](https://secure.travis-ci.org/michaelahlers/angular-timezone-js.png)](http://travis-ci.org/michaelahlers/angular-timezone-js)
 
 You need:
- 
+
 - NPM
 - Bower
 
