@@ -63,7 +63,7 @@ captureTimeout = 5000
 /* Run tests on start (when browsers are captured) and exit. */
 // --single-run
 // --no-single-run
-singleRun = false
+singleRun = true
 
 /* Report which specs are take longer than 500 ms to complete. */
 // --report-slower-than 500
