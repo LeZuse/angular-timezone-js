@@ -17,11 +17,12 @@
   "dependencies" : {},
 
   "devDependencies" : {
-    "karma" : "0.8.x"
+    "karma" : "0.8.x",
+    "phantomjs" : "1.9.x"
   },
 
   "scripts" : {
-    "test" : "karma start test/karma.conf.js --single-run --browsers PhantomJS"
+    "test" : "karma start test/karma.conf.js"
   },
 
   "contributors" : [
