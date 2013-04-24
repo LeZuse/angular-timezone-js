@@ -1,12 +1,13 @@
 'use strict'
 
 describe('tzDate', function () {
-  var scope, $sandbox, $compile, $timeout
+  var scope, $filter, $compile, $timeout, $sandbox
 
   beforeEach(module('timezonejs'))
 
-  beforeEach(inject(function ($injector, $rootScope, _$compile_, _$timeout_) {
+  beforeEach(inject(function ($injector, $rootScope, _$filter_, _$compile_, _$timeout_) {
     scope = $rootScope
+    $filter = _$filter_
     $compile = _$compile_
     $timeout = _$timeout_
 
@@ -34,13 +35,13 @@ describe('tzDate', function () {
     'America/Chicago' : {
       scope : {
         reference : new Date(Date.parse('1970-01-01T00:00:00+00:00')),
-        timezone : 'America/Chicago'
+        timezone : 'America/New_York'
       },
       element : '<span>{{reference|tzDate:timezone|date:"yyyy-MM-dd HH:mm:ss Z"}}</span>'
     }
   }
 
-  it('should format reference date to America/Chicago', function () {
+  it('should support date formatting for America/Chicago', function () {
     var el = compile('America/Chicago')
     expect(el.text()).toEqual('1969-12-31 18:00:00 -0600')
   })
