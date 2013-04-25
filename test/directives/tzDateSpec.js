@@ -80,13 +80,13 @@ describe('tzDate', function () {
     })
   })
 
-//  it('should support formatting dates to expected timezones', function () {
-//    scenarios.forEach(function (scenario) {
-//      var expected = scenario.expected
-//        , el = compile(scenario)
-//
-//      expect(el.text()).toEqual(expected.text)
-//    })
-//  })
+  it('should support formatting dates to expected timezones', function () {
+    scenarios.forEach(function (scenario) {
+      var expected = scenario.expected
+        , el = compile(scenario)
+
+      expect(el.text()).toEqual(expected.text)
+    })
+  })
 
 })
