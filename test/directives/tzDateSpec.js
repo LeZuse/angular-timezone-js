@@ -3,7 +3,9 @@
 describe('tzDate', function () {
   var scope, $filter, $compile, $timeout, $sandbox
 
-  beforeEach(module('timezonejs'))
+  beforeEach(module('timezonejs', function ($provide) {
+    $provide.value('timezonesURL', 'base/js/lib/timezones.json')
+  }))
 
   beforeEach(inject(function ($injector, $rootScope, _$filter_, _$compile_, _$timeout_) {
     scope = $rootScope
@@ -18,7 +20,7 @@ describe('tzDate', function () {
     scenario = scenarios[scenario]
     angular.extend(scope, scenario.scope)
 
-    var $element = $(scenario.element).appendTo($sandbox)
+    var $element = $(scenario.markup).appendTo($sandbox)
 
     $element = $compile($element)(scope)
     scope.$digest()
@@ -31,19 +33,42 @@ describe('tzDate', function () {
     scope.$destroy()
   })
 
-  var scenarios = {
-    'America/Chicago' : {
+  var scenarios = [
+    {
       scope : {
         reference : new Date(Date.parse('1970-01-01T00:00:00+00:00')),
-        timezone : 'America/New_York'
+        timezone : 'America/New_York',
+        expected : {
+          fullYear : 1969,
+          month : 11,
+          date : 31,
+          hours : 20
+        }
       },
-      element : '<span>{{reference|tzDate:timezone|date:"yyyy-MM-dd HH:mm:ss Z"}}</span>'
+      markup : '<span>{{reference|tzDate:timezone|date:"yyyy-MM-dd HH:mm:ss Z"}}</span>'
     }
-  }
+  ]
 
-  it('should support date formatting for America/Chicago', function () {
-    var el = compile('America/Chicago')
-    expect(el.text()).toEqual('1969-12-31 18:00:00 -0600')
+  it('should align dates to expected timezones', function () {
+    scenarios.forEach(function (scenario) {
+      var timezone = scenario.scope.timezone
+        , reference = scenario.scope.reference
+        , expected = scenario.scope.expected
+
+      var aligned = $filter('tzDate')(reference, timezone)
+
+      expect(aligned.getTimezone()).toEqual(timezone)
+
+      expect(aligned.getFullYear()).toEqual(expected.fullYear)
+      expect(aligned.getMonth()).toEqual(expected.month)
+      expect(aligned.getDate()).toEqual(expected.date)
+      expect(aligned.getHours()).toEqual(expected.hours)
+    })
   })
+
+//  it('should support date formatting for America/New_York', function () {
+//    var el = compile('America/New_York')
+//    expect(el.html()).toEqual('1969-12-31 19:00:00 -0500')
+//  })
 
 })
