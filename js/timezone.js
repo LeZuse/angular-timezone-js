@@ -1,10 +1,28 @@
+(function(){
+
+var toExtendedNative = function (wrapped) {
+  /* Tricks the isDate method in Angular into treating these objects like it
+   * would any other Date. May be horribly slow. */
+  var native = new Date()
+  for (key in wrapped) {
+    native[key] = wrapped[key]
+  }
+  return native
+}
+
 var timezonejs = angular.module('timezonejs', []);
 
-timezonejs.factory('Timezone', function() {
+timezonejs.factory('Timezone', function($injector) {
 	var _tz = timezoneJS.timezone;
 	_tz.loadingScheme = _tz.loadingSchemes.MANUAL_LOAD;
 	// TODO: load with ang?
-	_tz.loadZoneJSONData('js/lib/timezones.json', true);
+
+    try {
+      _tz.loadZoneJSONData($injector.get('timezonesURL'), true);
+    } catch (e) {
+      _tz.loadZoneJSONData('js/lib/timezones.json', true);
+    }
+
 	timezoneJS.fromLocalString = function(str, tz) {
         // https://github.com/csnover/js-iso8601/blob/master/iso8601.js – MIT license
 
@@ -20,7 +38,7 @@ timezonejs.factory('Timezone', function() {
         struct[2] = (+struct[2] || 1) - 1;
         struct[3] = +struct[3] || 1;
 
-        return new timezoneJS.Date(struct[1], struct[2], struct[3], struct[4], struct[5], struct[6], struct[7], tz);
+        return toExtendedNative(new timezoneJS.Date(struct[1], struct[2], struct[3], struct[4], struct[5], struct[6], struct[7], tz));
 	};
 	return timezoneJS;
 });
@@ -28,6 +46,8 @@ timezonejs.factory('Timezone', function() {
 timezonejs.filter('tzDate', function(Timezone) {
     return function(dt, tz) {
         console.log('ar', arguments);
-        return new Timezone.Date(dt, tz);
+        return toExtendedNative(new Timezone.Date(dt, tz));
     };
 });
+
+})(angular)
