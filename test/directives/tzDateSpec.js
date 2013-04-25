@@ -17,7 +17,6 @@ describe('tzDate', function () {
   }))
 
   var compile = function (scenario) {
-    scenario = scenarios[scenario]
     angular.extend(scope, scenario.scope)
 
     var $element = $(scenario.markup).appendTo($sandbox)
@@ -37,28 +36,30 @@ describe('tzDate', function () {
     {
       scope : {
         reference : new Date(Date.parse('1970-01-01T00:00:00+00:00')),
-        timezone : 'America/New_York',
-        expected : {
-          fullYear : 1969,
-          month : 11,
-          date : 31,
-          hours : 20
-        }
+        timezone : 'America/New_York'
       },
-      markup : '<span>{{reference|tzDate:timezone|date:"yyyy-MM-dd HH:mm:ss Z"}}</span>'
+      markup : '<span>{{reference|tzDate:timezone|date:"yyyy-MM-dd HH:mm:ss Z"}}</span>',
+      expected : {
+        fullYear : 1969,
+        month : 11,
+        date : 31,
+        hours : 20,
+        text : '1969-12-31 20:00:00 -0400'
+      }
     },
     {
       scope : {
         reference : new Date(Date.parse('1970-01-01T00:00:00+00:00')),
-        timezone : 'America/Los_Angeles',
-        expected : {
-          fullYear : 1969,
-          month : 11,
-          date : 31,
-          hours : 17
-        }
+        timezone : 'America/Los_Angeles'
       },
-      markup : '<span>{{reference|tzDate:timezone|date:"yyyy-MM-dd HH:mm:ss Z"}}</span>'
+      markup : '<span>{{reference|tzDate:timezone|date:"yyyy-MM-dd HH:mm:ss Z"}}</span>',
+      expected : {
+        fullYear : 1969,
+        month : 11,
+        date : 31,
+        hours : 17,
+        text : '1969-12-31 17:00:00 -0700'
+      }
     }
   ]
 
@@ -66,7 +67,7 @@ describe('tzDate', function () {
     scenarios.forEach(function (scenario) {
       var timezone = scenario.scope.timezone
         , reference = scenario.scope.reference
-        , expected = scenario.scope.expected
+        , expected = scenario.expected
 
       var aligned = $filter('tzDate')(reference, timezone)
 
@@ -79,9 +80,13 @@ describe('tzDate', function () {
     })
   })
 
-//  it('should support date formatting for America/New_York', function () {
-//    var el = compile('America/New_York')
-//    expect(el.html()).toEqual('1969-12-31 19:00:00 -0500')
+//  it('should support formatting dates to expected timezones', function () {
+//    scenarios.forEach(function (scenario) {
+//      var expected = scenario.expected
+//        , el = compile(scenario)
+//
+//      expect(el.text()).toEqual(expected.text)
+//    })
 //  })
 
 })
