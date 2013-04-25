@@ -1,10 +1,16 @@
 var timezonejs = angular.module('timezonejs', []);
 
-timezonejs.factory('Timezone', function(timezonesURL) {
+timezonejs.factory('Timezone', function($injector) {
 	var _tz = timezoneJS.timezone;
 	_tz.loadingScheme = _tz.loadingSchemes.MANUAL_LOAD;
 	// TODO: load with ang?
-	_tz.loadZoneJSONData(timezonesURL || 'js/lib/timezones.json', true);
+
+    try {
+      _tz.loadZoneJSONData($injector.get('timezonesURL'), true);
+    } catch (e) {
+      _tz.loadZoneJSONData('js/lib/timezones.json', true);
+    }
+
 	timezoneJS.fromLocalString = function(str, tz) {
         // https://github.com/csnover/js-iso8601/blob/master/iso8601.js – MIT license
 
