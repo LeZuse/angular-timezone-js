@@ -1,3 +1,5 @@
+(function(){
+
 var timezonejs = angular.module('timezonejs', []);
 
 timezonejs.factory('Timezone', function($injector) {
@@ -37,3 +39,5 @@ timezonejs.filter('tzDate', function(Timezone) {
         return new Timezone.Date(dt, tz);
     };
 });
+
+})(angular)
