@@ -46,6 +46,19 @@ describe('tzDate', function () {
         }
       },
       markup : '<span>{{reference|tzDate:timezone|date:"yyyy-MM-dd HH:mm:ss Z"}}</span>'
+    },
+    {
+      scope : {
+        reference : new Date(Date.parse('1970-01-01T00:00:00+00:00')),
+        timezone : 'America/Los_Angeles',
+        expected : {
+          fullYear : 1969,
+          month : 11,
+          date : 31,
+          hours : 17
+        }
+      },
+      markup : '<span>{{reference|tzDate:timezone|date:"yyyy-MM-dd HH:mm:ss Z"}}</span>'
     }
   ]
 
