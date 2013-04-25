@@ -1,5 +1,13 @@
 (function(){
 
+var toExtendedNative = function (wrapped) {
+  var native = new Date()
+  for (key in wrapped) {
+    native[key] = wrapped[key]
+  }
+  return native
+}
+
 var timezonejs = angular.module('timezonejs', []);
 
 timezonejs.factory('Timezone', function($injector) {
@@ -28,7 +36,7 @@ timezonejs.factory('Timezone', function($injector) {
         struct[2] = (+struct[2] || 1) - 1;
         struct[3] = +struct[3] || 1;
 
-        return new timezoneJS.Date(struct[1], struct[2], struct[3], struct[4], struct[5], struct[6], struct[7], tz);
+        return toExtendedNative(new timezoneJS.Date(struct[1], struct[2], struct[3], struct[4], struct[5], struct[6], struct[7], tz));
 	};
 	return timezoneJS;
 });
@@ -36,7 +44,7 @@ timezonejs.factory('Timezone', function($injector) {
 timezonejs.filter('tzDate', function(Timezone) {
     return function(dt, tz) {
         console.log('ar', arguments);
-        return new Timezone.Date(dt, tz);
+        return toExtendedNative(new Timezone.Date(dt, tz));
     };
 });
 
