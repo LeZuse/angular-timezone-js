@@ -1,6 +1,8 @@
 (function(){
 
 var toExtendedNative = function (wrapped) {
+  /* Tricks the isDate method in Angular into treating these objects like it
+   * would any other Date. May be horribly slow. */
   var native = new Date()
   for (key in wrapped) {
     native[key] = wrapped[key]
