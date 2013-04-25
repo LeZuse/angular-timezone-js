@@ -6,18 +6,19 @@
 /* Base path, that will be used to resolve files and exclude. */
 basePath = './..'
 
-/* Frameworks. */
-// frameworks = ['jasmine']
-
 /* Files and patterns to load in the browser. */
 files = [
   JASMINE,
   JASMINE_ADAPTER,
+
   'http://code.jquery.com/jquery-1.9.1.js',
   'http://code.angularjs.org/1.1.4/angular.js',
   'http://code.angularjs.org/1.1.4/angular-mocks.js',
   'https://raw.github.com/mde/timezone-js/master/src/date.js',
+
+  { pattern : 'js/lib/timezones.json', included : false },
   'js/timezone.js',
+
   'test/directives/*Spec.js'
 ]
 
